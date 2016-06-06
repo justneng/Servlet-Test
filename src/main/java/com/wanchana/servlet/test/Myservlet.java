@@ -26,8 +26,9 @@ public class Myservlet extends HttpServlet {
 //        String greeting = req.getParameter("name");
 //        resp.getWriter().append("Hello " + greeting);
         String fileName = req.getParameter("name");
+        String filePath = Utils.getFilePath(System.getProperty("user.dir"), fileName);
         
-        File file = new File("/home/neng/" + fileName);
+        File file = new File(filePath);
 
         OutputStream outputStream = null;
         FileInputStream fileInputStream = null;
