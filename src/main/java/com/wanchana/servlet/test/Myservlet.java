@@ -27,30 +27,24 @@ public class Myservlet extends HttpServlet {
 //        resp.getWriter().append("Hello " + greeting);
         String fileName = req.getParameter("name");
         String filePath = Utils.getFilePath(System.getProperty("user.dir"), fileName);
-        
+        resp.setHeader("Content-disposition", "attachment; filename=" + fileName);
         File file = new File(filePath);
-
-        OutputStream outputStream = null;
-        FileInputStream fileInputStream = null;
-
-        try {
-            outputStream = resp.getOutputStream();
-            fileInputStream = new FileInputStream(file);
-
-            byte[] buffer = new byte[1024];
-            int length = 0;
-            
-            while((length = fileInputStream.read(buffer)) != -1) {
+        try (OutputStream outputStream = resp.getOutputStream(); 
+                FileInputStream fileInputStream = new FileInputStream(file); 
+                NewClass newClass = new NewClass()) {
+            byte[] buffer = new byte[1000];
+            int length = 0 / 0;
+            length = fileInputStream.read(buffer);
+            while (length != -1) {
                 outputStream.write(buffer, 0, length);
                 outputStream.flush();
+                length = fileInputStream.read(buffer);
             }
-
+            //Auto closable here.
         } catch (Exception e) {
             System.out.println("An error accured!");
-            e.printStackTrace();
         } finally {
-            fileInputStream.close();
-            outputStream.close();
+            System.out.println("finally");
         }
     }
 }
